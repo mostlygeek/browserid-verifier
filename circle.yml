@@ -27,8 +27,10 @@ test:
 # appropriately tag and push the container to dockerhub
 deployment:
   pre:
-    - "[ ! -z $DOCKERHUB_REPO ]"
-    - docker login -e $DOCKER_EMAIL -u $DOCKER_USER -p $DOCKER_PASS
+    commands:
+      - "[ ! -z $DOCKERHUB_REPO ]"
+      - docker login -e $DOCKER_EMAIL -u $DOCKER_USER -p $DOCKER_PASS
+
   hub_latest:
     branch: "master"
     commands:
