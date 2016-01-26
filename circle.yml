@@ -14,8 +14,6 @@ dependencies:
     - "~/docker"
   override:
     - docker info
-    - docker login -e $DOCKER_EMAIL -u $DOCKER_USER -p $DOCKER_PASS
-    - "[ ! -z $DOCKERHUB_REPO ]"
 
     # build the container, use circleci's docker cache workaround
     - if [[ -e ~/docker/image.tar ]]; then echo "Loading image.tar"; docker load -i ~/docker/image.tar; fi
@@ -28,6 +26,9 @@ test:
 
 # appropriately tag and push the container to dockerhub
 deployment:
+  pre:
+    - "[ ! -z $DOCKERHUB_REPO ]"
+    - docker login -e $DOCKER_EMAIL -u $DOCKER_USER -p $DOCKER_PASS
   hub_latest:
     branch: "master"
     commands:
